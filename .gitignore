@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+data/
+*.h5
+*.pkl
+.streamlit/
+*.pdf
+*.tmp
+.vscode/
+.idea/
