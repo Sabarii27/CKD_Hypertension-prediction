@@ -78,5 +78,164 @@ ROC curves and confusion matrices are available in the `results/` folder.
 ```bash
 git clone https://github.com/Sabarii27/CKD_Hypertension-prediction.git
 cd CKD_Hypertension-prediction
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+source venv/bin/activate        # Linux/Mac
+venv\Scripts\activate           # Windows (Command Prompt)
+.\venv\Scripts\Activate.ps1     # Windows (PowerShell)
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+If you don't have `requirements.txt`, create it with:
+
+```
+streamlit
+tensorflow==2.10.0
+opencv-python
+numpy
+matplotlib
+scikit-learn
+pandas
+seaborn
+tqdm
+pillow
+scikit-image
+fpdf
+```
+
+### 4. Download the trained model
+
+The trained model (`end_to_end_cnn.h5`) is not included in the repository because of its size.  
+You can download it from [this link](insert your Google Drive / GitHub release link).  
+Place it in the `models/` folder.
+
+Or train it yourself (see “Training from Scratch” below).
+
+### 5. (Optional) Download the datasets
+
+If you want to retrain the model or extract features, download:
+
+- **AOD dataset** from Kaggle
+- **RFMiD dataset** from Kaggle
+
+Extract them into `data/AOD/` and `data/RFMiD/` respectively. Then run:
+
+```bash
+python prepare_multilabel_data.py   # Combines and preprocesses
+python extract_features_multilabel.py   # Extracts vascular features (takes ~2‑3 hours)
+python train_multilabel_classifier.py   # Trains the classifier
+```
+
+---
+
+## 🖥️ Running the Web App
+
+Once you have the trained model in `models/`, simply run:
+
+```bash
+streamlit run app.py
+```
+
+The app will open in your browser.
+
+- **Home:** Overview and example image.
+- **About:** Project details.
+- **Prediction:** Enter user details, upload a retinal image, view probabilities, generate saliency maps, and download a PDF report.
+
+---
+
+## 🧪 Testing with a Single Image (Command Line)
+
+```bash
+python predict_cnn.py path/to/retinal_image.jpg
+```
+
+It will print predicted probabilities for all 8 diseases.
+
+---
+
+## 📂 Project Structure
+
+```
+CKD_Hypertension-prediction/
+├── app.py                  # Streamlit web application
+├── gradcam.py              # Saliency map function
+├── config.py               # Path and image size configuration
+├── generate_plots.py       # Generate ROC curves & confusion matrices
+├── predict_cnn.py          # Command‑line prediction script
+├── requirements.txt        # Python dependencies
+├── models/                 # Trained model (end_to_end_cnn.h5)
+├── results/                # Evaluation graphs and PDF reports
+├── sample_images/          # (Optional) small set of test images
+└── README.md               # This file
+```
+
+Other scripts (`prepare_multilabel_data.py`, `extract_features_multilabel.py`, `train_multilabel_classifier.py`) are used for training from scratch.
+
+---
+
+## 🛠️ Training from Scratch (If you have the datasets)
+
+Download AOD and RFMiD from Kaggle (≈11 GB total).
+
+Place them in `data/AOD/` and `data/RFMiD/`.
+
+Run the preparation and training pipeline:
+
+```bash
+python prepare_multilabel_data.py
+python extract_features_multilabel.py   # ~2‑3 hours
+python train_multilabel_classifier.py
+```
+
+The trained model will be saved as `models/end_to_end_cnn.h5`.
+
+---
+
+## 📝 Future Improvements
+
+- **Better vessel segmentation** – Replace the Frangi filter with a dedicated U‑Net trained on DRIVE/CHASE.
+- **Multi‑modal prediction** – Add clinical metadata (age, blood pressure, eGFR) to boost accuracy.
+- **Deploy online** – Host the Streamlit app on Hugging Face Spaces or Streamlit Cloud.
+- **Mobile app** – Convert the model to TensorFlow Lite for offline smartphone screening.
+
+---
+
+## 🤝 Contributing
+
+Feel free to open issues or submit pull requests. For major changes, please discuss them first.
+
+---
+
+## 📄 License
+
+This project is for academic and research purposes. Please cite appropriately if you use it.
+
+---
+
+## 👨‍💻 Authors
+
+- Ravendran M.
+- Sabarinathan M.
+- Sanjai M.
+
+Under the guidance of Mrs. J. Jayapradha, Assistant Professor / CSE.
+
+---
+
+## 🙏 Acknowledgements
+
+- Kaggle for providing the AOD and RFMiD datasets.
+- The research community for public fundus image collections.
+- TensorFlow, Streamlit, and other open‑source libraries.
 
 
