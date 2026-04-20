@@ -78,3 +78,82 @@ ROC curves and confusion matrices are available in the `results/` folder.
 ```bash
 git clone https://github.com/Sabarii27/CKD_Hypertension-prediction.git
 cd CKD_Hypertension-prediction
+
+
+### 2. Create and activate a virtual environment
+Windows (Command Prompt):
+
+bash
+python -m venv venv
+venv\Scripts\activate
+Windows (PowerShell):
+
+bash
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+Linux / Mac:
+
+bash
+python3 -m venv venv
+source venv/bin/activate
+### 3. Install required Python packages
+bash
+pip install -r requirements.txt
+If you do not have requirements.txt, create it with the following content:
+
+text
+streamlit
+tensorflow==2.10.0
+opencv-python
+numpy
+matplotlib
+scikit-learn
+pandas
+seaborn
+tqdm
+pillow
+scikit-image
+fpdf
+Then run pip install -r requirements.txt.
+
+4. Get the trained model
+The trained model (end_to_end_cnn.h5) is not stored in this repository because it is too large.
+You have two options:
+
+Option A – Download the pre‑trained model (recommended)
+Download the model from this link (insert your actual Google Drive / release link).
+
+Place the file inside the models/ folder (create the folder if it doesn't exist).
+
+Option B – Train the model from scratch
+If you have the AOD and RFMiD datasets (see Training from Scratch below), you can train the model yourself. This will take several hours.
+
+5. Run the web application
+Once the model is in models/, start the Streamlit app:
+
+bash
+streamlit run app.py
+Your browser will open automatically.
+
+Go to the Prediction page, enter your details, upload a retinal image, and view the predictions.
+
+You can also generate a saliency map (heatmap) and download a PDF report.
+
+6. (Optional) Test a single image from the command line
+bash
+python predict_cnn.py path/to/retinal_image.jpg
+This will print the probabilities for all 8 diseases.
+
+⚙️ Training from scratch (if you have the datasets)
+Download the AOD and RFMiD datasets from Kaggle (links above in the Dataset section).
+
+Extract them into data/AOD/ and data/RFMiD/.
+
+Run the following scripts in order:
+
+bash
+python prepare_multilabel_data.py         # Combines and preprocesses images
+python extract_features_multilabel.py     # Extracts vascular features (takes 2‑3 hours)
+python train_multilabel_classifier.py     # Trains the classifier (fast)
+The trained model will be saved as models/end_to_end_cnn.h5.
+
